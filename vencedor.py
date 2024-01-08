@@ -33,4 +33,4 @@ def determinar_resultado(row):
         return "Mandante"
     else:
         return "Visitante"
-
+    

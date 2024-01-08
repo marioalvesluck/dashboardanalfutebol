@@ -9,7 +9,7 @@ times_it = [
     'AC Milan', 'US Sassuolo Calcio', 'Hellas Verona FC', 'US Salernitana 1919', 'Udinese Calcio', 'Bologna FC 1909',
      'Empoli FC', 'Atalanta BC', 'US Lecce', 'SS Lazio', 'Frosinone Calcio', 
     'ACF Fiorentina', 'Torino FC', 'SSC Napoli', 'AC Monza', 
-     'Cagliari Calcio'
+     'Cagliari Calcio','US Cremonese','Parma Calcio 1913', 'Spezia Calcio','AC Reggiana'
 ]
 
 times_esp = [
@@ -24,10 +24,9 @@ times_esp = [
     'SD Amorebieta', 'Málaga CF', 'CD Eldense', 'Terrassa FC', 
     'CD Lugo',  'RCD Espanyol de Barcelona', 
     'Elche CF',  'SD Huesca', 
-    'SD Amorebieta', 
-    'Burgos CF', 'Racing Club de Ferrol', 'CD Castellón',
-    'Unionistas de Salamanca CF',  'SD Eibar', 
-    'FC Cartagena', 'UD Barbastro',  'Málaga CF'
+    'Burgos CF', 'CD Castellón',
+    'Unionistas de Salamanca CF',  
+    'FC Cartagena', 'UD Barbastro','CD Tenerife'
 ]
 
 times_ig = [
@@ -41,13 +40,14 @@ times_ig = [
     "Scarborough Athletic FC", "Barnet FC", "Crewe Alexandra FC", "Norwich City FC", "Blackburn Rovers FC", 
     "Queens Park Rangers FC", "Newport County AFC", "Plymouth Argyle FC", "Watford FC", "Hull City AFC", 
     "Gillingham FC", "Southampton FC", "Stoke City FC",  "Swansea City AFC", "Sheffield Wednesday FC", 
-    "Middlesbrough FC", 
+    "Middlesbrough FC", 'Bolton Wanderes FC','Huddersfield Town AFC', 'Peterborough United FC','Leeds United FC'
+    ,'Shrewsbury Town FC','Wrexham AFC', 'West Bromwich Albion FC','Aldershot Town FC'
      "Stevenage FC", "Ipswich Town FC", "Leicester City FC", "Oxford United FC", "Burnley FC", 
     "Rotherham United FC",  "Forest Green Rovers FC", "Aldershot Town FC", 
-    "Stevenage FC", "Bristol Rovers FC",
+    "Stevenage FC", "Bristol Rovers FC","Bristol City FC",'Wigan Athletic FC',
     "Cambridge United FC", "Eastleigh FC", "Sutton United FC", "Chesterfield FC", 
     "Birmingham City FC", "Walsall FC", "Preston North End FC", 
-    "Morecambe FC", "Cardiff City FC",  "Huddersfield Town AFC"
+    "Morecambe FC", "Cardiff City FC",'Bolton Wanderers FC','Cambridge United FC'
 ]
 
 times_al = [
@@ -62,4 +62,31 @@ times_fr = [
                 'Olympique de Marseille', 'OGC Nice', 'Racing Club de Lens', 'Olympique Lyonnais', 
                 'FC Nantes', 'Paris Saint-Germain FC', 'RC Strasbourg Alsace', 'Stade Brestois 29', 
                 'FC Lorient', 'Stade de Reims', 'Lille OSC', 'FC Metz', 'Le Havre AC'
+]
+
+times_hol =  [
+    'AZ', 'PSV', 'AFC Ajax', 'PEC Zwolle', 'Heracles Almelo', 'Feyenoord Rotterdam', 
+    'Sparta Rotterdam', 'FC Twente \'65', 'Almere City FC', 'SBV Vitesse', 'SC Heerenveen', 
+    'FC Volendam', 'SBV Excelsior', 'Go Ahead Eagles', 'FC Utrecht', 'RKC Waalwijk', 'NEC', 
+    'Fortuna Sittard'
+]
+
+
+teams_cl = [
+    'Royal Antwerp FC', 'FC Barcelona',
+    'Newcastle United FC', 'AC Milan',
+    'Celtic FC', 'Feyenoord Rotterdam',
+    'FC Porto', 'FK Shakhtar Donetsk',
+    'Borussia Dortmund', 'Paris Saint-Germain FC',
+    'Club Atlético de Madrid', 'SS Lazio',
+    'RB Leipzig', 'BSC Young Boys',
+    'FK Crvena Zvezda', 'Manchester City FC',
+    'FC København', 'Galatasaray SK',
+    'FC Red Bull Salzburg', 'Sport Lisboa e Benfica',
+    'FC Internazionale Milano', 'Real Sociedad de Fútbol',
+    'Manchester United FC', 'FC Bayern München',
+    'SSC Napoli', 'Sporting Clube de Braga',
+    '1. FC Union Berlin', 'Real Madrid CF',
+    'Racing Club de Lens', 'Sevilla FC',
+    'PSV','Arsenal FC','Arsenal FC','PSV'
 ]

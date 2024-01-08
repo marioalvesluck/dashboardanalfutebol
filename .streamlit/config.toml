@@ -1,9 +1,8 @@
 [theme]
 base="light"
-backgroundColor="#413E3E"
-secondaryBackgroundColor="#E8BBBB"
-textColor="#FFF"
+backgroundColor="#fdfdfd"
+textColor="#080808"
+secondaryBackgroundColor="#EC4916"
 
 [server]
-
-runOnSave = True
+runOnSave = false
