@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from io import StringIO
 import streamlit as st
-
+@st.cache_data
 def tabela_resultado(url, nomes_substituir):
     response = requests.get(url)
     if response.status_code == 200:

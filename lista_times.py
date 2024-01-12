@@ -36,13 +36,13 @@ times_ig = [
     'Manchester City FC', 'Sheffield United FC', 'Luton Town FC', 'Chelsea FC',
 
     "Sunderland AFC", "Maidstone United FC", "AFC Wimbledon", "Millwall FC", "Coventry City FC", 
-   "Crystal Palace FC", "Blackpool FC", "Stockport County FC", "Port Vale FC", 
+   "Blackpool FC", "Stockport County FC", "Port Vale FC", 
     "Scarborough Athletic FC", "Barnet FC", "Crewe Alexandra FC", "Norwich City FC", "Blackburn Rovers FC", 
     "Queens Park Rangers FC", "Newport County AFC", "Plymouth Argyle FC", "Watford FC", "Hull City AFC", 
     "Gillingham FC", "Southampton FC", "Stoke City FC",  "Swansea City AFC", "Sheffield Wednesday FC", 
     "Middlesbrough FC", 'Bolton Wanderes FC','Huddersfield Town AFC', 'Peterborough United FC','Leeds United FC'
     ,'Shrewsbury Town FC','Wrexham AFC', 'West Bromwich Albion FC','Aldershot Town FC'
-     "Stevenage FC", "Ipswich Town FC", "Leicester City FC", "Oxford United FC", "Burnley FC", 
+     "Stevenage FC", "Ipswich Town FC", "Leicester City FC", "Oxford United FC", 
     "Rotherham United FC",  "Forest Green Rovers FC", "Aldershot Town FC", 
     "Stevenage FC", "Bristol Rovers FC","Bristol City FC",'Wigan Athletic FC',
     "Cambridge United FC", "Eastleigh FC", "Sutton United FC", "Chesterfield FC", 
