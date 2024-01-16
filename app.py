@@ -1,3 +1,5 @@
+import os
+from bardapi import Bard
 import streamlit as st
 from datetime import datetime
 from vencedor import determinar_time
@@ -11,6 +13,9 @@ import pandas as pd
 from graficos import class_times
 # Adiciona um gráfico de barras usando matplotlib como exemplo
 import matplotlib.pyplot as plt
+from handicap_asiatico import criar_tabela_handicap_asiatico, determinar_resultado_handicap
+from bardapi import Bard
+import os
 
 # Título do aplicativo
 st.set_page_config(
@@ -23,6 +28,26 @@ st.set_page_config(
 
 st.markdown("<h1 style='color: #0066cc;'>Bem-vindo ao Data Analizing App Football</h1>",
             unsafe_allow_html=True)
+
+with st.expander("Informações Sobre Handicap"):
+    # Configure a chave da API Bard
+    os.environ['_BARD_API_KEY'] = "fAj2B1hbkVjk9Go5UpcpDeKOzUd7psxijqjKVd1M0PJgWl5VE9LlZs1XmzJSNORl5iTIXw."
+    st.write("""
+            Ex de Pergunta:
+            Crie tabela com handicap na data dos jogos de hoje com palpites de possiveis ganhadores dos jogos de futebol italiano e espanhol , qual seria melhor handicap para se jogar nos jogos e mostre analise.\n
+            Crie tabela com handicap na data 2001/ 2024 e 21/01/ 2024 dos jogos de hoje com palpites de possiveis ganhadores dos jogos de futebol ingles , qual seria melhor handicap para se jogar nos jogos e mostre analise.
+            Qual sera Resultado do jogo Arsenal FC x Crystal Palace FC 2024/01/20  ganhador qual seria handcap ideal para este jogo e mostre analise.
+            """)
+    # Criar a caixa de pergunta no Streamlit
+    pergunta = st.text_input("Faça uma pergunta:")
+
+    # Verificar se a pergunta foi feita
+    if pergunta:
+        # Obter a resposta do modelo Bard
+        bard_output = Bard().get_answer(pergunta)['content']
+
+        # Exibir a resposta
+        st.write("Resposta do Bard:", bard_output)
 
 on = st.toggle('Auto Refresh')
 if on:
@@ -134,6 +159,7 @@ def criar_novas_colunas(df):
     # Verificar se o DataFrame está vazio
     if df.empty:
         return pd.DataFrame()  # Retorna um DataFrame vazio
+
     # df[['Data']] = df['Horario'].strstr.split(' ', expand=True)
     df[['M_avgP', 'V_avgP']] = df['avgP'].str.split(' ', expand=True)
     df[['M_avgG', 'V_avgG']] = df['avgG'].str.split(' ', expand=True)
@@ -197,6 +223,9 @@ df_tabela22 = criar_novas_colunas(df_pjogos_cl)
 df_tabela23 = criar_novas_colunas(df_resultado_ingflc)
 df_tabela24 = criar_novas_colunas(df_pjogos_ingflc)
 
+# Crie a tabela handicap asiático
+tabela_handicap_asiatico = criar_tabela_handicap_asiatico()
+
 tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(["⚽Campeonato Inglês", "⚽Campeonato Jogos Italiano", "⚽Campeonato Espanhol",
                                                           "⚽Campeonato Alemão", "⚽Campeonato Portugues", "⚽Campeonato Francês", "⚽Campeonato Holandes", "⚽Champions League"])
 
@@ -223,6 +252,12 @@ with tab1:
             'Sempre Analisar se Mandante ou Visitante esta 100% Média de Gols - Indica Possivel Ganhador')
 
         st.subheader("Proximos Jogos Inglês")
+
+        # Aplique a função determinar_resultado_handicap para criar a nova coluna 'resultado_handicap_do_jogo'
+        # Aplique a função determinar_resultado_handicap para criar as novas colunas 'resultado_handicap_do_jogo' e 'handicap_usado'
+        df_tabela2['resultado_handicap_do_jogo'], df_tabela2['handicap_usado'] = zip(
+            *df_tabela2.apply(lambda row: determinar_resultado_handicap(row, tabela_handicap_asiatico), axis=1))
+
         st.dataframe(df_tabela2)
 
         st.write(f"Resultados dos jogos  Campeonato Inglês")
@@ -536,3 +571,7 @@ with st.expander("Informações sobre Desempenho de times de futebol"):
         - `c>2,5▿`: Coeficiente de Partidas com Mais de 2,5 Gols - Classificação Descendente - Uma classificação baseada na porcentagem de jogos com mais de 2,5 gols.
         - `c>3,5▿`: Coeficiente de Partidas com Mais de 3,5 Gols - Classificação Descendente - Uma classificação baseada na porcentagem de jogos com mais de 3,5 gols.
     """)
+
+with st.expander("Informações Sobre Handicap"):
+    imagem_url = "https://static.sambafoot.com/br/apostas/wp/Imagem-tabela-handicap-asiatico.jpg"
+    st.image(imagem_url, caption='Sua imagem')
