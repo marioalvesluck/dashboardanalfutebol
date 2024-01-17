@@ -11,6 +11,9 @@ from noticias import exibir_noticias_analise_sentimento
 from streamlit_autorefresh import st_autorefresh
 import pandas as pd
 from graficos import class_times
+from lista_times import times
+from ia_games import ia_result, ia_tabela
+
 # Adiciona um gráfico de barras usando matplotlib como exemplo
 import matplotlib.pyplot as plt
 from handicap_asiatico import criar_tabela_handicap_asiatico, determinar_resultado_handicap
@@ -29,25 +32,6 @@ st.set_page_config(
 st.markdown("<h1 style='color: #0066cc;'>Bem-vindo ao Data Analizing App Football</h1>",
             unsafe_allow_html=True)
 
-with st.expander("Informações Sobre Handicap"):
-    # Configure a chave da API Bard
-    os.environ['_BARD_API_KEY'] = "fAj2B1hbkVjk9Go5UpcpDeKOzUd7psxijqjKVd1M0PJgWl5VE9LlZs1XmzJSNORl5iTIXw."
-    st.write("""
-            Ex de Pergunta:
-            Crie tabela com handicap na data dos jogos de hoje com palpites de possiveis ganhadores dos jogos de futebol italiano e espanhol , qual seria melhor handicap para se jogar nos jogos e mostre analise.\n
-            Crie tabela com handicap na data 2001/ 2024 e 21/01/ 2024 dos jogos de hoje com palpites de possiveis ganhadores dos jogos de futebol ingles , qual seria melhor handicap para se jogar nos jogos e mostre analise.
-            Qual sera Resultado do jogo Arsenal FC x Crystal Palace FC 2024/01/20  ganhador qual seria handcap ideal para este jogo e mostre analise.
-            """)
-    # Criar a caixa de pergunta no Streamlit
-    pergunta = st.text_input("Faça uma pergunta:")
-
-    # Verificar se a pergunta foi feita
-    if pergunta:
-        # Obter a resposta do modelo Bard
-        bard_output = Bard().get_answer(pergunta)['content']
-
-        # Exibir a resposta
-        st.write("Resposta do Bard:", bard_output)
 
 on = st.toggle('Auto Refresh')
 if on:
@@ -152,6 +136,7 @@ df_art_fc = tabela_art("https://native-stats.org/competition/FL1")
 df_art_al = tabela_art("https://native-stats.org/competition/BL1")
 df_art_hol = tabela_art("https://native-stats.org/competition/DED")
 
+
 # Criando novas colunas para os DataFrames
 
 
@@ -235,6 +220,11 @@ with tab1:
 
     st.warning(
         'Sempre Analisar se Mandante ou Visitante esta 100% Média de Gols - Indica Possivel Ganhador')
+
+    ia_result(df_tabela2)
+
+    ia_tabela('Inglês')
+
     with st.expander(f"Classificação Campeonato Inglês"):
         col1, col2, col3 = st.columns([1, 2, 3], gap="medium")
         col1.dataframe(df_class_ig)
@@ -246,38 +236,29 @@ with tab1:
         col2.pyplot(fig)
 
     with st.expander(f"Campeonatos Inglês"):
-        # Exibindo os DataFrames no Streamlit
         st.subheader("Campeonato Inglês")
         st.warning(
             'Sempre Analisar se Mandante ou Visitante esta 100% Média de Gols - Indica Possivel Ganhador')
 
         st.subheader("Proximos Jogos Inglês")
 
-        # Aplique a função determinar_resultado_handicap para criar a nova coluna 'resultado_handicap_do_jogo'
-        # Aplique a função determinar_resultado_handicap para criar as novas colunas 'resultado_handicap_do_jogo' e 'handicap_usado'
-        df_tabela2['resultado_handicap_do_jogo'], df_tabela2['handicap_usado'] = zip(
-            *df_tabela2.apply(lambda row: determinar_resultado_handicap(row, tabela_handicap_asiatico), axis=1))
-
         st.dataframe(df_tabela2)
 
-        st.write(f"Resultados dos jogos  Campeonato Inglês")
+        st.write("Resultados dos jogos Campeonato Inglês")
         st.dataframe(df_tabela1)
 
-        # Adicione esta linha para permitir que o usuário insira o número de acertos
         num_acertos_usuario = st.number_input(
             "Digite o número de acertos:", min_value=0, max_value=len(df_tabela1), value=0)
 
-        # Atualize a função contar_acertos para usar o número inserido pelo usuário
         def contar_acertos(df, num_acertos_usuario):
             df['Resultado_Correto'] = df.apply(
                 lambda row: row['Vencedor'] if row['Vencedor'] else 'Empate', axis=1)
-            acertos = num_acertos_usuario  # Use o número inserido pelo usuário
+            acertos = num_acertos_usuario
             total_jogos = len(df)
             porcentagem_acertos = (acertos / total_jogos) * \
                 100 if total_jogos > 0 else 0
             return acertos, porcentagem_acertos
 
-        # Atualize esta parte para mostrar os resultados usando o número inserido pelo usuário
         acertos_tabela1, porcentagem_acertos_tabela1 = contar_acertos(
             df_tabela1, num_acertos_usuario)
 
@@ -297,20 +278,6 @@ with tab1:
 
         st.write("Ultimos Resultados dos Jogos Fac Inglês")
         st.dataframe(df_tabela11)
-        # from IPython.display import HTML
-        # # Converter o DataFrame para HTML
-        # html_table = df_tabela11.to_html()
-
-        # # Exibir o HTML
-        # html = HTML(html_table)
-        # html
-
-        # colunas_desejadas = ['Label', 'Resultado',
-        #                      'Status', 'Vencedor', 'ResultadoFinal']
-        # df_res_ing = df_tabela11[colunas_desejadas]
-
-        # st.info('Resultados finais dos Jogos', icon="💲")
-        # st.dataframe(df_res_ing)
 
     with st.expander(f"Campeonato FLC Inglês"):
         st.write("Proximos Jogos FLC Inglês")
@@ -319,14 +286,16 @@ with tab1:
         st.dataframe(df_tabela23)
 
     with st.expander(f"Noticias"):
-        # Escolha da ação para análise de sentimentos
         selected = st.sidebar.selectbox("Notícias Time Inglês", times_ig)
-        # Coleta de noticicias dos Sites.
         exibir_noticias_analise_sentimento(selected)
 # Italiano
 with tab2:
     st.warning(
         'Sempre Analisar se Mandante ou Visitante esta 100% Média de Gols - Indica Possivel Ganhador')
+
+    ia_result(df_tabela4)
+
+    ia_tabela('Italiano')
 
     with st.expander(f"Classificação Campeonato Italiano"):
         col1, col2, col3 = st.columns([1, 2, 3], gap="medium")
@@ -369,6 +338,10 @@ with tab2:
 with tab3:
     st.warning(
         'Sempre Analisar se Mandante ou Visitante esta 100% Média de Gols - Indica Possivel Ganhador')
+
+    ia_result(df_tabela14)
+
+    ia_tabela('Espanhol')
 
     with st.expander(f"Classificação Campeonato Espanhol"):
         col1, col2, col3 = st.columns([1, 2, 3], gap="medium")
@@ -415,6 +388,10 @@ with tab4:
     st.warning(
         'Sempre Analisar se Mandante ou Visitante esta 100% Média de Gols - Indica Possivel Ganhador')
 
+    ia_result(df_tabela8)
+
+    ia_tabela('Alemâo')
+
     with st.expander(f"Classificação Campeonato Alemao"):
         col1, col2, col3 = st.columns([1, 2, 1], gap="medium")
         col1.dataframe(df_class_al)
@@ -442,6 +419,10 @@ with tab4:
 with tab5:
     st.warning(
         'Sempre Analisar se Mandante ou Visitante esta 100% Média de Gols - Indica Possivel Ganhador')
+
+    ia_result(df_tabela10)
+
+    ia_tabela('Portugûes')
 
     with st.expander(f"Classificação Campeonato Portugues"):
         col1, col2, col3 = st.columns([1, 2, 1], gap="medium")
@@ -476,6 +457,10 @@ with tab5:
 with tab6:
     st.warning(
         'Sempre Analisar se Mandante ou Visitante esta 100% Média de Gols - Indica Possivel Ganhador')
+
+    ia_result(df_tabela16)
+
+    ia_tabela('Francês')
 
     with st.expander(f"Classificação Campeonato Francês"):
         col1, col2, col3 = st.columns([1, 2, 1], gap="medium")
@@ -519,9 +504,18 @@ with tab7:
         # Exibir o gráfico no Streamlit
         col2.pyplot(fig)
 
+    ia_result(df_tabela20)
+
+    ia_tabela('Holandês')
+
     with st.expander("Campeonato Holandês"):
         st.subheader(f"Proximos Jogos Holandês")
         st.dataframe(df_tabela20)
+
+        # # Aplique a função determinar_resultado_handicap para criar as novas colunas 'resultado_handicap_do_jogo' e 'handicap_usado'
+        # df_tabela20['resultado_handicap_do_jogo'], df_tabela20['handicap_usado'] = zip(
+        #     *df_tabela20.apply(lambda row: determinar_resultado_handicap(row, tabela_handicap_asiatico), axis=1))
+
         st.subheader("Resultados dos jogos Campeonato Holandês")
         st.dataframe(df_tabela19)
         colunas_desejadas = ['Label', 'Resultado',
@@ -537,10 +531,18 @@ with tab7:
 with tab8:
     st.warning(
         'Sempre Analisar se Mandante ou Visitante esta 100% Média de Gols - Indica Possivel Ganhador')
+
+    # Funcao da IA escolher os jogos
+    ia_result(df_tabela22)
+
     # Exibindo os DataFrames no Streamlit
     st.title("Champions League")
     st.write(f"Proximos Jogos Champions League")
     st.dataframe(df_tabela22)
+
+    # Aplique a função determinar_resultado_handicap para criar as novas colunas 'resultado_handicap_do_jogo' e 'handicap_usado'
+    df_tabela22['resultado_handicap_do_jogo'], df_tabela22['handicap_usado'] = zip(
+        *df_tabela22.apply(lambda row: determinar_resultado_handicap(row, tabela_handicap_asiatico), axis=1))
 
     st.write("Resultados dos jogos Champions League")
     st.dataframe(df_tabela21)
